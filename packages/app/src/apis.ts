@@ -3,11 +3,17 @@ import {
   scmIntegrationsApiRef,
   ScmAuth,
 } from '@backstage/integration-react';
+import { githubAuth } from '@backstage/core-components'
 import {
   AnyApiFactory,
   configApiRef,
   createApiFactory,
+  githubAuthApiRef, 
 } from '@backstage/core-plugin-api';
+import {
+  GithubAuth 
+} from '@backstage/core-app-api';
+
 
 export const apis: AnyApiFactory[] = [
   createApiFactory({
@@ -17,3 +23,4 @@ export const apis: AnyApiFactory[] = [
   }),
   ScmAuth.createDefaultApiFactory(),
 ];
+
