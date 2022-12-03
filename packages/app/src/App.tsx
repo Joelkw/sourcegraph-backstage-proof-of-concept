@@ -27,15 +27,33 @@ import { entityPage } from './components/catalog/EntityPage';
 import { searchPage } from './components/search/SearchPage';
 import { Root } from './components/Root';
 
-import { AlertDisplay, OAuthRequestDialog } from '@backstage/core-components';
+import { AlertDisplay, OAuthRequestDialog, SignInPage  } from '@backstage/core-components';
 import { createApp } from '@backstage/app-defaults';
 import { FlatRoutes } from '@backstage/core-app-api';
 import { CatalogGraphPage } from '@backstage/plugin-catalog-graph';
 import { RequirePermission } from '@backstage/plugin-permission-react';
 import { catalogEntityCreatePermission } from '@backstage/plugin-catalog-common/alpha';
+// Add the following imports to the existing list from core
+import { githubAuthApiRef } from '@backstage/core-plugin-api';
+import { SrcTestPage } from 'backstage-plugin-src-test';
+
 
 const app = createApp({
   apis,
+  components: {
+    SignInPage: props => (
+      <SignInPage
+        {...props}
+        auto
+        provider={{
+          id: 'github-auth-provider',
+          title: 'GitHub',
+          message: 'Sign in using GitHub',
+          apiRef: githubAuthApiRef,
+        }}
+      />
+    ),
+  },  
   bindRoutes({ bind }) {
     bind(catalogPlugin.externalRoutes, {
       createComponent: scaffolderPlugin.routes.root,
@@ -52,6 +70,30 @@ const app = createApp({
     });
   },
 });
+
+// const app = createApp({
+//   apis,
+//   plugins: Object.values(plugins),
+//   components: {
+//     SignInPage: props => {
+//       return (
+//         <SignInPage
+//           {...props}
+//           providers={[
+//             {
+//               id: 'github-auth-provider',
+//               title: 'GitHub',
+//               message: 'Simple Backstage Application Login',
+//               apiRef: githubAuthApiRef,
+//             },
+//           ]}
+//           align="center"
+//         />
+//       );
+//     },
+//   },
+// });
+
 
 const AppProvider = app.getProvider();
 const AppRouter = app.getRouter();
@@ -94,6 +136,7 @@ const routes = (
     </Route>
     <Route path="/settings" element={<UserSettingsPage />} />
     <Route path="/catalog-graph" element={<CatalogGraphPage />} />
+    <Route path="/src-test" element={<SrcTestPage />} />
   </FlatRoutes>
 );
 

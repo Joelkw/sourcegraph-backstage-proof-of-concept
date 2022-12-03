@@ -56,6 +56,9 @@ import {
 import { TechDocsAddons } from '@backstage/plugin-techdocs-react';
 import { ReportIssue } from '@backstage/plugin-techdocs-module-addons-contrib';
 
+import { MyPluginEntityContent, SourcegraphFrontpageEntityContent } from 'backstage-plugin-src-test';
+
+
 const techdocsContent = (
   <EntityTechdocsContent>
     <TechDocsAddons>
@@ -120,13 +123,18 @@ const overviewContent = (
     <Grid item md={6} xs={12}>
       <EntityCatalogGraphCard variant="gridItem" height={400} />
     </Grid>
-
+    <Grid item md={8} xs={12}>
+      <SourcegraphFrontpageEntityContent />
+    </Grid>
     <Grid item md={4} xs={12}>
       <EntityLinksCard />
     </Grid>
+
     <Grid item md={8} xs={12}>
       <EntityHasSubcomponentsCard variant="gridItem" />
     </Grid>
+    {/* PUT SEARCH HERE JOELKW */}
+
   </Grid>
 );
 
@@ -192,6 +200,10 @@ const websiteEntityPage = (
     <EntityLayout.Route path="/docs" title="Docs">
       {techdocsContent}
     </EntityLayout.Route>
+
+    <EntityLayout.Route path="/test-sourcegraph" title="sourcegraphTitle">
+        <MyPluginEntityContent />
+      </EntityLayout.Route>
   </EntityLayout>
 );
 
@@ -210,6 +222,7 @@ const defaultEntityPage = (
 
     <EntityLayout.Route path="/docs" title="Docs">
       {techdocsContent}
+      
     </EntityLayout.Route>
   </EntityLayout>
 );
@@ -218,13 +231,23 @@ const componentPage = (
   <EntitySwitch>
     <EntitySwitch.Case if={isComponentType('service')}>
       {serviceEntityPage}
+      <EntityLayout.Route path="/test-sourcegraph" title="sourcegraphTitle">
+        <MyPluginEntityContent />
+      </EntityLayout.Route>
     </EntitySwitch.Case>
 
     <EntitySwitch.Case if={isComponentType('website')}>
       {websiteEntityPage}
+      <EntityLayout.Route path="/test-sourcegraph" title="sourcegraphTitle">
+        <MyPluginEntityContent />
+      </EntityLayout.Route>
     </EntitySwitch.Case>
 
-    <EntitySwitch.Case>{defaultEntityPage}</EntitySwitch.Case>
+    <EntitySwitch.Case>{defaultEntityPage}
+      <EntityLayout.Route path="/test-sourcegraph" title="sourcegraphTitle">
+          <MyPluginEntityContent />
+        </EntityLayout.Route>
+    </EntitySwitch.Case>
   </EntitySwitch>
 );
 

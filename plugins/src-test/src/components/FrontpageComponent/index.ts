@@ -1,0 +1,1 @@
+export { FrontpageComponent } from './FrontpageComponent';
